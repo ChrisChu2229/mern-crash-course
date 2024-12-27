@@ -13,7 +13,6 @@ export const getProducts = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-    // res.send("Server is ready! Testing change")
     const product = req.body; // user will send this data body
 
     if (!product.name || !product.price || !product.image) {

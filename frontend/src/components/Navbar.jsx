@@ -2,14 +2,15 @@ import { Alert, Button, Container, Flex, HStack, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import { FaRegPlusSquare } from "react-icons/fa";
-import { FaSun } from "react-icons/fa";
-// import { useColorMode } from "@chakra-ui/color-mode";
 import { useColorMode } from "./ui/color-mode";
 import { ColorModeButton } from "./ui/color-mode";
+import { useProductStore } from "../store/product";
+
 
 
 const Navbar = () => {
   const { toggleColorMode } = useColorMode();
+  const {products} = useProductStore();
 
   return (
     <Container maxW="1140px" px="4"  >
