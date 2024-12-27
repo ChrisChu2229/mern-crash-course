@@ -1,4 +1,4 @@
-import { Box, Button, Container, createToaster, Heading, Input, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, Input, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import React from 'react';
 import { useColorModeValue } from "../components/ui/color-mode";
@@ -8,6 +8,9 @@ import { Toaster, toaster } from "../components/ui/toaster"
 
 
 const CreatePage = () => {
+
+  const textColor = useColorModeValue("gray.300", "gray.700");
+  const bg = useColorModeValue("gray.900", "gray.200");
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
@@ -18,8 +21,6 @@ const CreatePage = () => {
 
   const handleAddProduct = async() => {
     const {success, message} = await createProduct(newProduct);
-    console.log("Success:", success);
-    console.log("Message:", message);
     if (!success) {
       toaster.create({
         title:"Error",
@@ -48,7 +49,7 @@ const CreatePage = () => {
       <VStack
         spacing={8}
       >
-        <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8} color={useColorModeValue("white", "gray.800")}>
+        <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8} color={textColor}>
           Create New Product
         </Heading>
 
@@ -69,7 +70,7 @@ const CreatePage = () => {
 							name='name'
 							value={newProduct.name}
 							onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-              color={useColorModeValue("gray.800, white")}
+              color={textColor}
               style={{"outlineColor": "white"}}
 						/>
 						<Input
@@ -78,7 +79,7 @@ const CreatePage = () => {
 							type='number'
 							value={newProduct.price}
 							onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-              color={useColorModeValue("gray.800, white")}
+              color={textColor}
               style={{"outlineColor": "white"}}
 						/>
 						<Input
@@ -86,11 +87,11 @@ const CreatePage = () => {
 							name='image'
 							value={newProduct.image}
 							onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
-              color={useColorModeValue("gray.800, white")}
+              color={textColor}
               style={{"outlineColor": "white"}}
 						/>
 
-            <Button colorScheme='blue' onClick={handleAddProduct} w='full' color={useColorModeValue("white", "black")} bg={useColorModeValue("black", "gray"  )}>
+            <Button colorScheme='blue' onClick={handleAddProduct} w='full' color={textColor} bg={bg}>
 							Add Product
 						</Button>
           </VStack>

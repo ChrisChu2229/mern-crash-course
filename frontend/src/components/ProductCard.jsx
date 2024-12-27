@@ -19,20 +19,18 @@ import { useState } from 'react'
 
 
 const ProductCard = ({product}) => {
-
     const [updatedProduct, setUpdatedProduct] = useState(product);
 
-    const textColor = useColorModeValue("gray.600", "gray.200");
-    const bg = useColorModeValue("white", "gray.800")
+    const textColor = useColorModeValue("gray.300", "gray.700");
+    const bg = useColorModeValue("gray.800", "gray.100");
+    const iconColor = useColorModeValue("gray.300", "gray.900");
     const [isOpen, setIsOpen] = useState(false);
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
-    const { deleteProduct } = useProductStore();
+    const { deleteProduct, updateProduct } = useProductStore();
 
     const handleDeleteProduct = async (pid) => { 
         const {success, message} = await deleteProduct(pid);
-        console.log("success:", success);
-        console.log("message:", message);
         if (!success) {
               toaster.create({
                 title:"Error",
@@ -50,6 +48,28 @@ const ProductCard = ({product}) => {
                 key: "success"
             })
         }
+    }
+
+    const handleUpdateProduct = async (pid, updatedProduct) => {
+      const {success, message} = await updateProduct(pid, updatedProduct);
+      closeModal();
+      if (!success) {
+        toaster.create({
+          title:"Error",
+          description: message,
+          type: "error",
+          isClosable: true,
+          key: "error"
+        })
+      } else {
+        toaster.create({
+          title: "Success",
+          description: "Product updated successfully.", 
+          type: "success",
+          isClosable: true,
+          key: "success"
+      })
+  }
     }
 
   return (
@@ -77,10 +97,11 @@ const ProductCard = ({product}) => {
             </Text>
 
             <HStack spacing={2}>
-                <IconButton onClick={openModal} colorScheme='blue' ><FaRegEdit/></IconButton>
+                <IconButton onClick={openModal} color={iconColor} bg={"blue.400"}><FaRegEdit/></IconButton>
                 <IconButton
                     onClick={() => handleDeleteProduct(product._id)}
-                    colorScheme='red'
+                    bg={"red.400"}
+                    color={iconColor}
                 ><MdDelete /></IconButton>
             </HStack>
         </Box>
@@ -88,17 +109,18 @@ const ProductCard = ({product}) => {
         <Modal isOpen={isOpen} onClose={closeModal}>
                 <ModalOverlay alignSelf={"center"} alignItems={"center"} margin={"auto"} alignContent={"center"}/>
 
-                <ModalContent maxH={"400px"} maxW={"400px"} alignSelf={"center"} alignContent={"center"} margin={"auto"} top={"150px"} bgColor={"black"} p={"20px"}>
+                <ModalContent maxH={"400px"} maxW={"400px"} alignSelf={"center"} color={"white"} alignContent={"center"} margin={"auto"} top={"150px"} bgColor={"black"} p={"20px"}>
                   <ModalCloseButton maxW={"20px"} alignSelf={"end"} />
-                    <ModalHeader fontStyle={"bold"} fontSize={"20px"}>Update Product </ModalHeader>
+                    <ModalHeader fontStyle={"bold"} fontSize={"20px"} color={"white"}>Update Product </ModalHeader>
                     
                     
-                    <ModalBody>
+                    <ModalBody paddingTop={"4%"}>
                         <VStack spacing={4}>
                             <Input
                                 placeholder='Product Name'
                                 name='name'
                                 value={updatedProduct.name}
+                                color={"white"}
                                 onChange={(e) => setUpdatedProduct({ ...updatedProduct, name: e.target.value })}
                             />
                             <Input
@@ -106,26 +128,28 @@ const ProductCard = ({product}) => {
                                 name='price'
                                 type='number'
                                 value={updatedProduct.price}
+                                color={"white"}
                                 onChange={(e) => setUpdatedProduct({ ...updatedProduct, price: e.target.value })}
                             />
                             <Input
                                 placeholder='Image URL'
                                 name='image'
                                 value={updatedProduct.image}
+                                color={"white"}
                                 onChange={(e) => setUpdatedProduct({ ...updatedProduct, image: e.target.value })}
                             />
                         </VStack>
                     </ModalBody>
 
-                    <ModalFooter>
+                    <ModalFooter paddingTop={"4%"}>
                         <Button
-                            colorScheme='blue'
+                            bg={"blue.400"}
                             mr={3}
                             onClick={() => handleUpdateProduct(product._id, updatedProduct)}    
                         >
                             Update
                         </Button>
-                        <Button variant='ghost' onClick={closeModal}>
+                        <Button variant='ghost' onClick={closeModal} color={"white"}>
                             Cancel
                         </Button>
                     </ModalFooter>  

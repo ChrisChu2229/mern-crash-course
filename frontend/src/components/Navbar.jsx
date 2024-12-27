@@ -26,11 +26,13 @@ const Navbar = () => {
       >
 
         <Text
-					fontSize={{ base: "22", sm: "28" }}
+          fontSize={"xl"}
 					fontWeight={"bold"}
 					textTransform={"uppercase"}
 					textAlign={"center"}
-					bgGradient={"linear(to-r, cyan.400, blue.500)"}
+					bgGradient={"to-r"}
+          gradientFrom={"cyan.400"}
+          gradientTo={"blue.500"}
 					bgClip={"text"}
 				>
 					<Link to={"/"}>Product Store 🛍️</Link>
@@ -40,10 +42,10 @@ const Navbar = () => {
         
           <Link to={"/create"}>
             <Button>
-              <FaRegPlusSquare fontSize={20}/>
+              <FaRegPlusSquare color={"white"} fontSize={20}/>
             </Button>
           </Link>
-          <ColorModeButton/>          
+          <ColorModeButton color={"white"}/>          
 
 
         </HStack>
